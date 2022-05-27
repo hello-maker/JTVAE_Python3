@@ -18,7 +18,7 @@ This gives you the vocabulary of cluster labels over the dataset `all.txt`.
 They trained VAE model in two phases:
 1. They train our model for three epochs without KL regularization term (So we are essentially training an autoencoder).
 Pretrain our model as follows (with hidden state dimension=450, latent code dimension=56, graph message passing depth=3):
-(`cd JTVAE_Python3`)
+(`cd /JTVAE_Python3/`)
 ```
 mkdir pre_model/
 CUDA_VISIBLE_DEVICES=0 python molvae/pretrain.py --train ../data/zinc/train.txt --vocab ../data/zinc/vocab.txt \
