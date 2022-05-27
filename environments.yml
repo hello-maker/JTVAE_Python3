@@ -1,0 +1,17 @@
+name: Version_JTVAE
+channels:
+        # - conda-forge
+        - pytorch
+        - rdkit
+dependencies:
+        - python
+        - pytorch
+        - cudatoolkit
+        - rdkit=2017.09
+        - numpy
+        - pandas
+        - jupyter
+        - matplotlib
+        - seaborn
+        - networkx
+        - pip
