@@ -1,10 +1,10 @@
 # Molecule Generation
-Suppose the repository is downloaded at `$PREFIX/icml18-jtnn` directory. First set up environment variables:
+Suppose the repository is downloaded at `$PREFIX/JTVAE_Python3` directory. First set up environment variables:
 ```
 export PYTHONPATH=$PREFIX/icml18-jtnn
 ```
-Our ZINC dataset is in `icml18-jtnn/data/zinc` (copied from https://github.com/mkusner/grammarVAE). 
-We follow the same train/dev/test split as previous work. 
+Their ZINC dataset is in `icml18-jtnn/data/zinc` (copied from https://github.com/mkusner/grammarVAE). 
+They follow the same train/dev/test split as previous work. 
 
 ## Deriving Vocabulary 
 If you are running our code on a new dataset, you need to compute the vocabulary from your dataset.
@@ -15,12 +15,13 @@ python ../jtnn/mol_tree.py < ../data/zinc/all.txt
 This gives you the vocabulary of cluster labels over the dataset `all.txt`.
 
 ## Training
-We trained VAE model in two phases:
-1. We train our model for three epochs without KL regularization term (So we are essentially training an autoencoder).
+They trained VAE model in two phases:
+1. They train our model for three epochs without KL regularization term (So we are essentially training an autoencoder).
 Pretrain our model as follows (with hidden state dimension=450, latent code dimension=56, graph message passing depth=3):
+(`cd JTVAE_Python3`)
 ```
 mkdir pre_model/
-CUDA_VISIBLE_DEVICES=0 python pretrain.py --train ../data/zinc/train.txt --vocab ../data/zinc/vocab.txt \
+CUDA_VISIBLE_DEVICES=0 python molvae/pretrain.py --train ../data/zinc/train.txt --vocab ../data/zinc/vocab.txt \
 --hidden 450 --depth 3 --latent 56 --batch 40 \
 --save_dir pre_model/
 ```
@@ -32,7 +33,7 @@ The final model is saved at pre_model/model.2
 We found setting beta > 0.01 greatly damages reconstruction accuracy.
 ```
 mkdir vae_model/
-CUDA_VISIBLE_DEVICES=0 python vaetrain.py --train ../data/zinc/train.txt --vocab ../data/zinc/vocab.txt \
+CUDA_VISIBLE_DEVICES=0 python molvae/vaetrain.py --train ../data/zinc/train.txt --vocab ../data/zinc/vocab.txt \
 --hidden 450 --depth 3 --latent 56 --batch 40 --lr 0.0007 --beta 0.005 \
 --model pre_model/model.2 --save_dir vae_model/
 ```
